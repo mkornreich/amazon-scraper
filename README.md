@@ -19,15 +19,13 @@ From a terminal
 1. Clone this project `git clone
    https://github.com/mkornreich/amazon-scraper.git` and cd into it
    `cd amazon-scraper`
-2. Add a Virtual Environment `python3 -m venv .venv` (Optional)
-3. Activate the Virtual Environment `source .venv/bin/activate` (Optional)
-4. Install Requirements `pip3 install -r requirements.txt`
-5. Run the server `python3 main.py`
-6. Open the link generated after the program starts. Should be
+2. Install Requirements `pip3 install -r requirements.txt`
+3. Run the server `python3 main.py`
+4. Open the link generated after the program starts. Should be
    something like http://127.0.0.1:5000
-7. Configure the parameters on the website. Once the scrape frequency
+5. Configure the parameters on the website. Once the scrape frequency
    parameter is configured a scrape is be scheduled to start
-8. Leave the server running and wait until the price changes
+6. Leave the server running and wait until the price changes
 
 ## Challenges faced
 
