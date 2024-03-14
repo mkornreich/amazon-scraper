@@ -1,0 +1,6 @@
+name:
+  css: "#productTitle"
+  type: Text
+price:
+  css: ".priceToPay.reinventPricePriceToPayMargin.aok-align-center.a-price"
+  type: Text

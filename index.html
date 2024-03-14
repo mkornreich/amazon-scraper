@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+  <body>
+    <table>
+      <tr>
+        <th>Setting</th>
+        <th></th>
+        <th></th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <th>
+          <p>Email to send to</p>
+        </th>
+        <th><input id="email_to_input" type="text" /></th>
+        <th><button onclick="click_button(email_to)">Update value</button></th>
+        <th>
+          <p id="email_to"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Resend API key</p>
+        </th>
+        <th><input id="api_key_input" type="text" /></th>
+        <th><button onclick="click_button(api_key)">Update value</button></th>
+        <th>
+          <p id="api_key"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Amazon link</p>
+        </th>
+        <th><input id="amazon_link_input" type="text" /></th>
+        <th>
+          <button onclick="click_button(amazon_link)">Update value</button>
+        </th>
+        <th>
+          <p id="amazon_link"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Alert after drop (dollars)</p>
+        </th>
+        <th><input id="price_drop_input" type="text" /></th>
+        <th>
+          <button onclick="click_button(price_drop)">Update value</button>
+        </th>
+        <th>
+          <p id="price_drop"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Scrape frequency (minutes)</p>
+        </th>
+        <th><input id="scrape_frequency_input" type="text" /></th>
+        <th>
+          <button onclick="click_button(scrape_frequency)">
+            Update value and schedule scrape
+          </button>
+        </th>
+        <th>
+          <p id="scrape_frequency"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Item name</p>
+          <p></p>
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <p id="name"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Latest price (dollars)</p>
+          <p></p>
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <p id="price"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Latest time scraped</p>
+          <p></p>
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <p id="time_scraped"></p>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <p>Latest time email sent</p>
+          <p></p>
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <p id="time_email"></p>
+        </th>
+      </tr>
+    </table>
+    <script>
+      function onLoad() {
+        getKey("email_to");
+        getKey("api_key");
+        getKey("amazon_link");
+        getKey("price_drop");
+        getKey("scrape_frequency");
+        getScrape();
+      }
+      window.onload = onLoad;
+      function postValue(key, value) {
+        const xhr = new XMLHttpRequest();
+        const url =
+          window.location.href + "handle_post?key=" + key + "&value=" + value;
+        xhr.open("POST", url);
+        xhr.send();
+        xhr.responseType = "text";
+        xhr.onload = () => {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            getKey(key);
+          } else {
+            console.log(`Error: ${xhr.status}`);
+          }
+        };
+      }
+      function getKey(key) {
+        const xhr = new XMLHttpRequest();
+        const url = window.location.href + "handle_get?key=" + key;
+        xhr.open("GET", url);
+        xhr.send();
+        xhr.responseType = "text";
+        xhr.onload = () => {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById(key).innerHTML = xhr.response;
+          } else {
+            console.log(`Error: ${xhr.status}`);
+          }
+        };
+      }
+      function click_button(arg) {
+        const key = arg.id;
+        const value = document.getElementById(key + "_input").value;
+        postValue(key, value);
+      }
+      function getScrape() {
+        getKey("name");
+        getKey("price");
+        getKey("time_scraped");
+        getKey("time_email");
+      }
+      window.addEventListener("load", function () {
+        setInterval(getScrape, 3000);
+      });
+    </script>
+    <style>
+      p {
+        display: inline;
+        font-weight: normal;
+      }
+    </style>
+  </body>
+</html>
